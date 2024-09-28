@@ -11,4 +11,19 @@ repository = "https://github.com/david-wallace-croft/bevy-prototype"
 version = "0.0.0-SNAPSHOT"
 
 [dependencies]
-# none
+bevy = "0.14.2"
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+
+[profile.wasm-release]
+inherits = "release"
+opt-level = "s"
+strip = "debuginfo"
