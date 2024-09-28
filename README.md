@@ -7,6 +7,9 @@
 - cd bevy-prototype
 - cargo run
 
+## Links
+
+- https://bevyengine.org/learn/quick-start/getting-started/
 
 ## History
 
