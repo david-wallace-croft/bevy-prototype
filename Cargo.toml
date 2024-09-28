@@ -1,0 +1,14 @@
+[package]
+authors = ["David Wallace Croft <david@CroftSoft.com>"]
+description = "My first Bevy program"
+edition = "2021"
+homepage = "https://www.CroftSoft.com/"
+license = "MIT"
+name = "bevy-prototype"
+publish = false
+readme = "README.md"
+repository = "https://github.com/david-wallace-croft/bevy-prototype"
+version = "0.0.0-SNAPSHOT"
+
+[dependencies]
+# none
