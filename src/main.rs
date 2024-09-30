@@ -25,6 +25,16 @@ fn hello_world() {
 fn main() {
   App::new()
     .add_systems(Startup, add_people)
-    .add_systems(Update, (greet_people, hello_world))
+    .add_systems(Update, (hello_world, (update_people, greet_people).chain()))
     .run();
+}
+
+fn update_people(mut query: Query<&mut Name, With<Person>>) {
+  for mut name in &mut query {
+    if name.0 == "Charlie Delta" {
+      name.0 = "Golf Hotel".to_string();
+      
+      break;
+    }
+  }
 }
