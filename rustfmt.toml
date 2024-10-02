@@ -1,6 +1,8 @@
 # https://rust-lang.github.io/rustfmt/
+# https://github.com/rust-lang/rustfmt
 array_width = 1
 attr_fn_like_width = 1
+# brace_style = "AlwaysNextLine"
 chain_width = 60
 # condense_wildcard_suffixes = true
 disable_all_formatting = false
