@@ -1,4 +1,9 @@
-use bevy::prelude::*;
+mod position;
+mod velocity;
+
+use self::position::Position;
+use self::velocity::Velocity;
+use ::bevy::prelude::*;
 
 fn main() {
   App::new()
@@ -28,9 +33,12 @@ impl Plugin for HelloPlugin {
       TimerMode::Repeating,
     )));
 
-    app.add_systems(Startup, add_people);
+    app.add_systems(Startup, (add_people, spawn_spaceship));
 
-    app.add_systems(Update, (update_people, greet_people).chain());
+    app.add_systems(
+      Update,
+      (update_people, greet_people, update_position, print_position).chain(),
+    );
   }
 }
 
@@ -52,6 +60,24 @@ fn greet_people(
   }
 }
 
+fn print_position(query: Query<(Entity, &Position)>) {
+  for (entity, position) in query.iter() {
+    info!("Entity {:?} is at position {:?},", entity, position);
+  }
+}
+
+fn spawn_spaceship(mut commands: Commands) {
+  let entity = (
+    Position::default(),
+    Velocity {
+      x: 0.001,
+      y: 0.001,
+    },
+  );
+
+  commands.spawn(entity);
+}
+
 fn update_people(mut query: Query<&mut Name, With<Person>>) {
   for mut name in &mut query {
     if name.0 == "Charlie Delta" {
@@ -59,5 +85,13 @@ fn update_people(mut query: Query<&mut Name, With<Person>>) {
 
       break;
     }
+  }
+}
+
+fn update_position(mut query: Query<(&Velocity, &mut Position)>) {
+  for (velocity, mut position) in query.iter_mut() {
+    position.x += velocity.x;
+
+    position.y += velocity.y;
   }
 }
