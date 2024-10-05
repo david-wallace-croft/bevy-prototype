@@ -16,7 +16,7 @@ fn main() {
 
   let ambient_light = AmbientLight {
     color: Default::default(),
-    brightness: 0.75,
+    brightness: 750.,
   };
 
   App::new()
