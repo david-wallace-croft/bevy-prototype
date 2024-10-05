@@ -4,13 +4,12 @@ use ::bevy::prelude::*;
 pub struct MovementPlugin;
 
 impl MovementPlugin {
-  fn update_position(mut query: Query<(&Velocity, &mut Transform)>) {
+  fn update_position(
+    mut query: Query<(&Velocity, &mut Transform)>,
+    time: Res<Time>,
+  ) {
     for (velocity, mut transform) in query.iter_mut() {
-      transform.translation.x += velocity.value.x;
-
-      transform.translation.y += velocity.value.y;
-
-      transform.translation.z += velocity.value.z;
+      transform.translation += velocity.value * time.delta_seconds();
     }
   }
 }
