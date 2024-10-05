@@ -6,17 +6,9 @@ pub struct Velocity {
 }
 
 impl Velocity {
-  pub fn new(
-    x: f32,
-    y: f32,
-    z: f32,
-  ) -> Self {
+  pub fn new(value: Vec3) -> Self {
     Self {
-      value: Vec3 {
-        x,
-        y,
-        z,
-      },
+      value,
     }
   }
 }
