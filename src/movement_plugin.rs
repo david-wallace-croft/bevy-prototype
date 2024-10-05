@@ -20,6 +20,6 @@ impl Plugin for MovementPlugin {
     &self,
     app: &mut App,
   ) {
-    app.add_systems(Startup, MovementPlugin::update_position);
+    app.add_systems(Update, MovementPlugin::update_position);
   }
 }
