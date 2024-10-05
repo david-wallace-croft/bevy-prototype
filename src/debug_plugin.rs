@@ -1,4 +1,3 @@
-use super::velocity::Velocity;
 use ::bevy::prelude::*;
 
 pub struct DebugPlugin;
