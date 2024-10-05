@@ -9,8 +9,10 @@
 
 ## Links
 
-- https://bevyengine.org/learn/quick-start/getting-started/
-- https://www.youtube.com/watch?v=B6ZFuYYZCSY&t=7s
+- Bevy Engine
+  - https://bevyengine.org/learn/quick-start/getting-started/
+- Zymartu Games, "Bevy 0.12 Beginner Tutorial Series" 
+  - https://www.youtube.com/watch?v=B6ZFuYYZCSY&t=7s
 - Ultimate Space Kit by Quaternius via Poly Pizza
   - https://poly.pizza/bundle/Ultimate-Space-Kit-YWh743lqGX
 
