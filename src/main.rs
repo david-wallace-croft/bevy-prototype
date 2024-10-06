@@ -1,7 +1,8 @@
+mod acceleration;
 mod camera_plugin;
 mod debug_plugin;
 mod movement_plugin;
-mod spaceship_bundle;
+mod moving_object_bundle;
 mod spaceship_plugin;
 mod velocity;
 

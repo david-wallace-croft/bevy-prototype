@@ -1,3 +1,4 @@
+use super::acceleration::Acceleration;
 use super::velocity::Velocity;
 use ::bevy::prelude::*;
 
@@ -12,6 +13,15 @@ impl MovementPlugin {
       transform.translation += velocity.value * time.delta_seconds();
     }
   }
+
+  fn update_velocity(
+    mut query: Query<(&Acceleration, &mut Velocity)>,
+    time: Res<Time>,
+  ) {
+    for (acceleration, mut velocity) in query.iter_mut() {
+      velocity.value += acceleration.value * time.delta_seconds();
+    }
+  }
 }
 
 impl Plugin for MovementPlugin {
@@ -19,6 +29,12 @@ impl Plugin for MovementPlugin {
     &self,
     app: &mut App,
   ) {
-    app.add_systems(Update, MovementPlugin::update_position);
+    app.add_systems(
+      Update,
+      (
+        MovementPlugin::update_velocity,
+        MovementPlugin::update_position,
+      ),
+    );
   }
 }
