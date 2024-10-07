@@ -1,15 +1,19 @@
 mod acceleration;
+mod asteroid;
+mod asteroid_plugin;
 mod camera_plugin;
 mod debug_plugin;
 mod movement_plugin;
 mod moving_object_bundle;
 mod spaceship_plugin;
+mod spawn_timer;
 mod velocity;
 
 use self::camera_plugin::CameraPlugin;
 use self::debug_plugin::DebugPlugin;
 use self::movement_plugin::MovementPlugin;
 use self::spaceship_plugin::SpaceshipPlugin;
+use crate::asteroid_plugin::AsteroidPlugin;
 use ::bevy::prelude::*;
 
 fn main() {
@@ -24,9 +28,10 @@ fn main() {
     .insert_resource(clear_color)
     .insert_resource(ambient_light)
     .add_plugins(DefaultPlugins)
-    .add_plugins(SpaceshipPlugin)
-    .add_plugins(CameraPlugin)
     .add_plugins(MovementPlugin)
     .add_plugins(DebugPlugin)
+    .add_plugins(SpaceshipPlugin)
+    .add_plugins(AsteroidPlugin)
+    .add_plugins(CameraPlugin)
     .run();
 }

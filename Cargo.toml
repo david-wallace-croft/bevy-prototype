@@ -12,6 +12,7 @@ version = "0.0.0-SNAPSHOT"
 
 [dependencies]
 bevy = "0.14.2"
+rand = "0.8.5"
 
 [profile.dev]
 opt-level = 1
