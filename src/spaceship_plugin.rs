@@ -16,7 +16,7 @@ impl SpaceshipPlugin {
   ) {
     let acceleration = Acceleration::new(STARTING_ACCELERATION);
 
-    let scene = asset_server.load("Spaceship.glb#Scene0");
+    let scene = asset_server.load("spaceship.glb#Scene0");
 
     let transform = Transform::from_translation(STARTING_TRANSLATION);
 

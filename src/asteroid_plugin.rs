@@ -49,7 +49,7 @@ impl AsteroidPlugin {
       Acceleration::new(random_unit_vector() * ACCELERATION_SCALAR);
 
     let model: SceneBundle = SceneBundle {
-      scene: asset_server.load("Planet-IVnmauIgWX.glb"),
+      scene: asset_server.load("asteroid.glb#Scene0"),
       transform: Transform::from_translation(translation),
       ..default()
     };
