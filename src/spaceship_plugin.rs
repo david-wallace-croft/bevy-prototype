@@ -1,6 +1,7 @@
+use super::acceleration::Acceleration;
 use super::moving_object_bundle::MovingObjectBundle;
+use super::scene_assets::SceneAssets;
 use super::velocity::Velocity;
-use crate::acceleration::Acceleration;
 use ::bevy::prelude::*;
 
 const STARTING_ACCELERATION: Vec3 = Vec3::ZERO;
@@ -12,11 +13,11 @@ pub struct SpaceshipPlugin;
 impl SpaceshipPlugin {
   fn spawn_spaceship(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    scene_assets: Res<SceneAssets>,
   ) {
     let acceleration = Acceleration::new(STARTING_ACCELERATION);
 
-    let scene = asset_server.load("spaceship.glb#Scene0");
+    let scene: Handle<Scene> = scene_assets.spaceship.clone();
 
     let transform = Transform::from_translation(STARTING_TRANSLATION);
 
@@ -43,6 +44,6 @@ impl Plugin for SpaceshipPlugin {
     &self,
     app: &mut App,
   ) {
-    app.add_systems(Startup, SpaceshipPlugin::spawn_spaceship);
+    app.add_systems(PostStartup, SpaceshipPlugin::spawn_spaceship);
   }
 }

@@ -1,8 +1,9 @@
 use super::acceleration::Acceleration;
+use super::asteroid::Asteroid;
 use super::moving_object_bundle::MovingObjectBundle;
+use super::scene_assets::SceneAssets;
 use super::spawn_timer::SpawnTimer;
 use super::velocity::Velocity;
-use crate::asteroid::Asteroid;
 use ::bevy::prelude::*;
 use ::rand::thread_rng;
 use ::rand::Rng;
@@ -19,8 +20,8 @@ pub struct AsteroidPlugin;
 
 impl AsteroidPlugin {
   fn spawn_asteroid(
-    asset_server: Res<AssetServer>,
     mut commands: Commands,
+    scene_assets: Res<SceneAssets>,
     mut spawn_timer: ResMut<SpawnTimer>,
     time: Res<Time>,
   ) {
@@ -49,7 +50,7 @@ impl AsteroidPlugin {
       Acceleration::new(random_unit_vector() * ACCELERATION_SCALAR);
 
     let model: SceneBundle = SceneBundle {
-      scene: asset_server.load("asteroid.glb#Scene0"),
+      scene: scene_assets.asteroid.clone(),
       transform: Transform::from_translation(translation),
       ..default()
     };
@@ -79,6 +80,6 @@ impl Plugin for AsteroidPlugin {
 
     app
       .insert_resource(spawn_timer)
-      .add_systems(Update, AsteroidPlugin::spawn_asteroid);
+      .add_systems(PostUpdate, AsteroidPlugin::spawn_asteroid);
   }
 }
