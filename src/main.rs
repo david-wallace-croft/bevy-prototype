@@ -7,6 +7,7 @@ mod debug_plugin;
 mod movement_plugin;
 mod moving_object_bundle;
 mod scene_assets;
+mod spaceship;
 mod spaceship_plugin;
 mod spawn_timer;
 mod velocity;
