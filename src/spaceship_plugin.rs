@@ -28,11 +28,27 @@ impl SpaceshipPlugin {
 
     let mut movement = 0.;
 
+    if button_input.pressed(KeyCode::KeyD) {
+      rotation = -SPACESHIP_ROTATION_SPEED * time.delta_seconds();
+    } else if button_input.pressed(KeyCode::KeyA) {
+      rotation = SPACESHIP_ROTATION_SPEED * time.delta_seconds();
+    }
+
     if button_input.pressed(KeyCode::KeyS) {
       movement = -SPACESHIP_SPEED;
     } else if button_input.pressed(KeyCode::KeyW) {
       movement = SPACESHIP_SPEED;
     }
+
+    if button_input.pressed(KeyCode::ShiftLeft) {
+      roll = -SPACESHIP_ROLL_SPEED * time.delta_seconds();
+    } else if button_input.pressed(KeyCode::ShiftRight) {
+      roll = SPACESHIP_ROLL_SPEED * time.delta_seconds();
+    }
+
+    transform.rotate_y(rotation);
+
+    transform.rotate_local_z(roll);
 
     velocity.value = -transform.forward() * movement;
   }
