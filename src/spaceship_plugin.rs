@@ -2,9 +2,12 @@ use super::acceleration::Acceleration;
 use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spaceship::Spaceship;
+use super::spaceship_missile::SpaceshipMissile;
 use super::velocity::Velocity;
 use ::bevy::prelude::*;
 
+const MISSILE_SPEED: f32 = 50.;
+const MISSILE_FORWARD_SPAWN_SCALAR: f32 = 7.5;
 const SPACESHIP_ROLL_SPEED: f32 = 2.5;
 const SPACESHIP_ROTATION_SPEED: f32 = 2.5;
 const SPACESHIP_SPEED: f32 = 25.;
@@ -53,6 +56,43 @@ impl SpaceshipPlugin {
     velocity.value = -transform.forward() * movement;
   }
 
+  fn spaceship_weapon_controls(
+    button_input: Res<ButtonInput<KeyCode>>,
+    mut commands: Commands,
+    query: Query<&Transform, With<Spaceship>>,
+    scene_assets: Res<SceneAssets>,
+  ) {
+    if !button_input.pressed(KeyCode::Space) {
+      return;
+    }
+    let acceleration = Acceleration::new(Vec3::ZERO);
+
+    let scene: Handle<Scene> = scene_assets.missile.clone();
+
+    let transform = query.single();
+
+    let model_translation: Vec3 = transform.translation
+      + -transform.forward() * MISSILE_FORWARD_SPAWN_SCALAR;
+
+    let model_transform = Transform::from_translation(model_translation);
+
+    let model = SceneBundle {
+      scene,
+      transform: model_transform,
+      ..default()
+    };
+
+    let velocity = Velocity::new(-transform.forward() * MISSILE_SPEED);
+
+    let moving_object_bundle = MovingObjectBundle {
+      acceleration,
+      model,
+      velocity,
+    };
+
+    commands.spawn((moving_object_bundle, SpaceshipMissile));
+  }
+
   fn spawn_spaceship(
     mut commands: Commands,
     scene_assets: Res<SceneAssets>,
@@ -88,6 +128,12 @@ impl Plugin for SpaceshipPlugin {
   ) {
     app
       .add_systems(PostStartup, SpaceshipPlugin::spawn_spaceship)
-      .add_systems(Update, SpaceshipPlugin::spaceship_movement_controls);
+      .add_systems(
+        Update,
+        (
+          SpaceshipPlugin::spaceship_movement_controls,
+          SpaceshipPlugin::spaceship_weapon_controls,
+        ),
+      );
   }
 }
