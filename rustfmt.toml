@@ -1,3 +1,5 @@
+# Nota Bene: I switched to using .editorconfig instead of rustfmt.toml
+
 # https://rust-lang.github.io/rustfmt/
 # https://github.com/rust-lang/rustfmt
 array_width = 1

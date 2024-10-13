@@ -13,11 +13,12 @@ mod spaceship_missile;
 mod spaceship_plugin;
 mod spawn_timer;
 mod velocity;
+mod collision_detection_plugin;
 
 use self::asset_loader_plugin::AssetLoaderPlugin;
 use self::asteroid_plugin::AsteroidPlugin;
 use self::camera_plugin::CameraPlugin;
-use self::debug_plugin::DebugPlugin;
+use self::collision_detection_plugin::CollisionDetectionPlugin;
 use self::movement_plugin::MovementPlugin;
 use self::spaceship_plugin::SpaceshipPlugin;
 use ::bevy::prelude::*;
@@ -27,7 +28,7 @@ fn main() {
 
   let ambient_light = AmbientLight {
     color: Default::default(),
-    brightness: 750.,
+    brightness: 1_000.,
   };
 
   App::new()
@@ -36,9 +37,10 @@ fn main() {
     .add_plugins(DefaultPlugins)
     .add_plugins(AssetLoaderPlugin)
     .add_plugins(MovementPlugin)
-    .add_plugins(DebugPlugin)
     .add_plugins(SpaceshipPlugin)
     .add_plugins(AsteroidPlugin)
     .add_plugins(CameraPlugin)
+    .add_plugins(CollisionDetectionPlugin)
+    // .add_plugins(DebugPlugin)
     .run();
 }

@@ -1,4 +1,5 @@
 use super::acceleration::Acceleration;
+use super::collider::Collider;
 use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spaceship::Spaceship;
@@ -6,8 +7,10 @@ use super::spaceship_missile::SpaceshipMissile;
 use super::velocity::Velocity;
 use ::bevy::prelude::*;
 
-const MISSILE_SPEED: f32 = 50.;
 const MISSILE_FORWARD_SPAWN_SCALAR: f32 = 7.5;
+const MISSILE_RADIUS: f32 = 1.;
+const MISSILE_SPEED: f32 = 50.;
+const SPACESHIP_RADIUS: f32 = 5.;
 const SPACESHIP_ROLL_SPEED: f32 = 2.5;
 const SPACESHIP_ROTATION_SPEED: f32 = 2.5;
 const SPACESHIP_SPEED: f32 = 25.;
@@ -60,12 +63,16 @@ impl SpaceshipPlugin {
     button_input: Res<ButtonInput<KeyCode>>,
     mut commands: Commands,
     query: Query<&Transform, With<Spaceship>>,
-    scene_assets: Res<SceneAssets>,
-  ) {
-    if !button_input.pressed(KeyCode::Space) {
+    scene_assets: Res<SceneAssets>)
+  {
+    if !button_input.pressed(KeyCode::Space)
+    {
       return;
     }
+
     let acceleration = Acceleration::new(Vec3::ZERO);
+
+    let collider = Collider::new(MISSILE_RADIUS);
 
     let scene: Handle<Scene> = scene_assets.missile.clone();
 
@@ -86,6 +93,7 @@ impl SpaceshipPlugin {
 
     let moving_object_bundle = MovingObjectBundle {
       acceleration,
+      collider,
       model,
       velocity,
     };
@@ -98,6 +106,8 @@ impl SpaceshipPlugin {
     scene_assets: Res<SceneAssets>,
   ) {
     let acceleration = Acceleration::new(STARTING_ACCELERATION);
+
+    let collider = Collider::new(SPACESHIP_RADIUS);
 
     let scene: Handle<Scene> = scene_assets.spaceship.clone();
 
@@ -113,6 +123,7 @@ impl SpaceshipPlugin {
 
     let spaceship_bundle = MovingObjectBundle {
       acceleration,
+      collider,
       model,
       velocity,
     };

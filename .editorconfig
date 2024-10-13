@@ -55,7 +55,7 @@ ij_markdown_wrap_text_if_long = true
 ij_markdown_wrap_text_inside_blockquotes = true
 
 [*.rs]
-ij_rust_align_multiline_chained_methods = true
+ij_rust_align_multiline_chained_methods = false
 ij_rust_align_multiline_parameters = true
 ij_rust_align_multiline_parameters_in_calls = true
 ij_rust_align_ret_type = true
@@ -72,7 +72,7 @@ ij_rust_keep_blank_lines_in_code = 1
 ij_rust_keep_blank_lines_in_declarations = 1
 ij_rust_keep_first_column_comment = false
 ij_rust_keep_indents_on_empty_lines = false
-ij_rust_keep_line_breaks = false
+ij_rust_keep_line_breaks = true
 ij_rust_line_comment_add_space = true
 ij_rust_line_comment_at_first_column = false
 ij_rust_max_number_of_blanks_between_field_patterns = 1

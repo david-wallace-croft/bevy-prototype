@@ -1,5 +1,6 @@
 use super::acceleration::Acceleration;
 use super::asteroid::Asteroid;
+use super::collider::Collider;
 use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spawn_timer::SpawnTimer;
@@ -11,6 +12,8 @@ use ::std::ops::Range;
 use ::std::time::Duration;
 
 const ACCELERATION_SCALAR: f32 = 1.0;
+const RADIUS: f32 = 2.5;
+const ROTATE_SPEED: f32 = 2.5;
 const SPAWN_RANGE_X: Range<f32> = -25.0..25.0;
 const SPAWN_RANGE_Z: Range<f32> = 0.0..25.0;
 const SPAWN_TIME_SECONDS: f32 = 1.;
@@ -18,13 +21,41 @@ const VELOCITY_SCALAR: f32 = 5.;
 
 pub struct AsteroidPlugin;
 
-impl AsteroidPlugin {
+impl AsteroidPlugin
+{
+  fn handle_asteroid_collisions(
+    mut commands: Commands,
+    query: Query<(Entity, &Collider), With<Asteroid>>)
+  {
+    for (entity, collider) in query.iter()
+    {
+      for &collided_entity in collider.colliding_entities.iter()
+      {
+        if query.get(collided_entity).is_ok()
+        {
+          continue;
+        }
+
+        commands.entity(entity).despawn_recursive();
+      }
+    }
+  }
+
+  fn rotate_asteroids(
+    mut query: Query<&mut Transform, With<Asteroid>>,
+    time: Res<Time>)
+  {
+    for mut transform in query.iter_mut() {
+      transform.rotate_local_z(ROTATE_SPEED * time.delta_seconds());
+    }
+  }
+
   fn spawn_asteroid(
     mut commands: Commands,
     scene_assets: Res<SceneAssets>,
     mut spawn_timer: ResMut<SpawnTimer>,
-    time: Res<Time>,
-  ) {
+    time: Res<Time>)
+  {
     let time_delta: Duration = time.delta();
 
     spawn_timer.timer.tick(time_delta);
@@ -49,6 +80,8 @@ impl AsteroidPlugin {
     let acceleration =
       Acceleration::new(random_unit_vector() * ACCELERATION_SCALAR);
 
+    let collider = Collider::new(RADIUS);
+
     let model: SceneBundle = SceneBundle {
       scene: scene_assets.asteroid.clone(),
       transform: Transform::from_translation(translation),
@@ -59,6 +92,7 @@ impl AsteroidPlugin {
 
     let moving_object_bundle = MovingObjectBundle {
       acceleration,
+      collider,
       model,
       velocity,
     };
@@ -80,6 +114,13 @@ impl Plugin for AsteroidPlugin {
 
     app
       .insert_resource(spawn_timer)
-      .add_systems(PostUpdate, AsteroidPlugin::spawn_asteroid);
+      .add_systems(
+        PostUpdate,
+        (
+          AsteroidPlugin::spawn_asteroid,
+          AsteroidPlugin::rotate_asteroids,
+          AsteroidPlugin::handle_asteroid_collisions,
+        )
+      );
   }
 }
