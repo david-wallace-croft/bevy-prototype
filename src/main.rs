@@ -3,6 +3,7 @@ mod asset_loader_plugin;
 mod asteroid;
 mod asteroid_plugin;
 mod camera_plugin;
+mod collider;
 mod debug_plugin;
 mod movement_plugin;
 mod moving_object_bundle;
