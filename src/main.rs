@@ -4,7 +4,9 @@ mod asteroid;
 mod asteroid_plugin;
 mod camera_plugin;
 mod collider;
+mod collision_detection_plugin;
 mod debug_plugin;
+mod despawn_plugin;
 mod movement_plugin;
 mod moving_object_bundle;
 mod scene_assets;
@@ -13,12 +15,12 @@ mod spaceship_missile;
 mod spaceship_plugin;
 mod spawn_timer;
 mod velocity;
-mod collision_detection_plugin;
 
 use self::asset_loader_plugin::AssetLoaderPlugin;
 use self::asteroid_plugin::AsteroidPlugin;
 use self::camera_plugin::CameraPlugin;
 use self::collision_detection_plugin::CollisionDetectionPlugin;
+use self::despawn_plugin::DespawnPlugin;
 use self::movement_plugin::MovementPlugin;
 use self::spaceship_plugin::SpaceshipPlugin;
 use ::bevy::prelude::*;
@@ -41,6 +43,7 @@ fn main() {
     .add_plugins(AsteroidPlugin)
     .add_plugins(CameraPlugin)
     .add_plugins(CollisionDetectionPlugin)
+    .add_plugins(DespawnPlugin)
     // .add_plugins(DebugPlugin)
     .run();
 }
