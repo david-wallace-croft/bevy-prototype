@@ -1,3 +1,5 @@
+#![expect(dead_code)]
+
 mod acceleration;
 mod asset_loader_plugin;
 mod asteroid;
@@ -7,6 +9,7 @@ mod collider;
 mod collision_detection_plugin;
 mod debug_plugin;
 mod despawn_plugin;
+mod in_game_set;
 mod movement_plugin;
 mod moving_object_bundle;
 mod scene_assets;
