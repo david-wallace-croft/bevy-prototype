@@ -1,5 +1,3 @@
-#![expect(dead_code)]
-
 mod acceleration;
 mod asset_loader_plugin;
 mod asteroid;
@@ -13,6 +11,7 @@ mod in_game_set;
 mod movement_plugin;
 mod moving_object_bundle;
 mod scene_assets;
+mod schedule_plugin;
 mod spaceship;
 mod spaceship_missile;
 mod spaceship_plugin;

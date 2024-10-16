@@ -14,7 +14,7 @@ impl DespawnPlugin {
 
       let distance: f32 = translation.distance(Vec3::ZERO);
 
-      if (distance > DESPAWN_DISTANCE) {
+      if distance > DESPAWN_DISTANCE {
         commands.entity(entity).despawn_recursive();
       }
     }
