@@ -1,3 +1,4 @@
+use super::in_game_set::InGameSet;
 use ::bevy::prelude::*;
 
 pub struct DebugPlugin;
@@ -18,6 +19,9 @@ impl Plugin for DebugPlugin {
     &self,
     app: &mut App,
   ) {
-    app.add_systems(Startup, DebugPlugin::print_position);
+    app.add_systems(
+      Startup,
+      DebugPlugin::print_position.after(InGameSet::EntityUpdates),
+    );
   }
 }

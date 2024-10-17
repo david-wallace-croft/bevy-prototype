@@ -1,4 +1,5 @@
 use super::acceleration::Acceleration;
+use super::in_game_set::InGameSet;
 use super::velocity::Velocity;
 use ::bevy::prelude::*;
 
@@ -34,7 +35,9 @@ impl Plugin for MovementPlugin {
       (
         MovementPlugin::update_velocity,
         MovementPlugin::update_position,
-      ),
+      )
+        .chain()
+        .in_set(InGameSet::EntityUpdates),
     );
   }
 }

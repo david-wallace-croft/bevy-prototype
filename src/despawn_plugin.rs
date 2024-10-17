@@ -1,3 +1,4 @@
+use super::in_game_set::InGameSet;
 use ::bevy::prelude::*;
 
 const DESPAWN_DISTANCE: f32 = 100.;
@@ -26,6 +27,10 @@ impl Plugin for DespawnPlugin {
     &self,
     app: &mut App,
   ) {
-    app.add_systems(Update, DespawnPlugin::despawn_far_away_entities);
+    app.add_systems(
+      Update,
+      DespawnPlugin::despawn_far_away_entities
+        .in_set(InGameSet::DespawnEntities),
+    );
   }
 }
