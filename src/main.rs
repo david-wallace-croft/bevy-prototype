@@ -15,6 +15,7 @@ mod schedule_plugin;
 mod spaceship;
 mod spaceship_missile;
 mod spaceship_plugin;
+mod spaceship_shield;
 mod spawn_timer;
 mod velocity;
 

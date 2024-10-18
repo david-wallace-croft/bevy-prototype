@@ -1,4 +1,7 @@
+use super::asteroid::Asteroid;
 use super::collider::Collider;
+use super::in_game_set::InGameSet;
+use super::spaceship::Spaceship;
 use ::bevy::prelude::*;
 use ::std::collections::HashMap;
 
@@ -44,6 +47,21 @@ impl CollisionDetectionPlugin {
       }
     }
   }
+
+  fn handle_collisions<T: Component>(
+    mut commands: Commands,
+    query: Query<(Entity, &Collider), With<T>>,
+  ) {
+    for (entity, collider) in query.iter() {
+      for &collided_entity in collider.colliding_entities.iter() {
+        if query.get(collided_entity).is_ok() {
+          continue;
+        }
+
+        commands.entity(entity).despawn_recursive();
+      }
+    }
+  }
 }
 
 impl Plugin for CollisionDetectionPlugin {
@@ -51,6 +69,19 @@ impl Plugin for CollisionDetectionPlugin {
     &self,
     app: &mut App,
   ) {
-    app.add_systems(Update, CollisionDetectionPlugin::collision_detection);
+    app
+      .add_systems(
+        Update,
+        CollisionDetectionPlugin::collision_detection
+          .in_set(InGameSet::CollisionDetection),
+      )
+      .add_systems(
+        Update,
+        (
+          Self::handle_collisions::<Asteroid>,
+          Self::handle_collisions::<Spaceship>,
+        )
+          .in_set(InGameSet::DespawnEntities),
+      );
   }
 }

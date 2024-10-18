@@ -1,6 +1,7 @@
 use super::acceleration::Acceleration;
 use super::asteroid::Asteroid;
 use super::collider::Collider;
+use super::in_game_set::InGameSet;
 use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spawn_timer::SpawnTimer;
@@ -21,30 +22,11 @@ const VELOCITY_SCALAR: f32 = 5.;
 
 pub struct AsteroidPlugin;
 
-impl AsteroidPlugin
-{
-  fn handle_asteroid_collisions(
-    mut commands: Commands,
-    query: Query<(Entity, &Collider), With<Asteroid>>)
-  {
-    for (entity, collider) in query.iter()
-    {
-      for &collided_entity in collider.colliding_entities.iter()
-      {
-        if query.get(collided_entity).is_ok()
-        {
-          continue;
-        }
-
-        commands.entity(entity).despawn_recursive();
-      }
-    }
-  }
-
+impl AsteroidPlugin {
   fn rotate_asteroids(
     mut query: Query<&mut Transform, With<Asteroid>>,
-    time: Res<Time>)
-  {
+    time: Res<Time>,
+  ) {
     for mut transform in query.iter_mut() {
       transform.rotate_local_z(ROTATE_SPEED * time.delta_seconds());
     }
@@ -54,8 +36,8 @@ impl AsteroidPlugin
     mut commands: Commands,
     scene_assets: Res<SceneAssets>,
     mut spawn_timer: ResMut<SpawnTimer>,
-    time: Res<Time>)
-  {
+    time: Res<Time>,
+  ) {
     let time_delta: Duration = time.delta();
 
     spawn_timer.timer.tick(time_delta);
@@ -112,15 +94,13 @@ impl Plugin for AsteroidPlugin {
       timer,
     };
 
-    app
-      .insert_resource(spawn_timer)
-      .add_systems(
-        PostUpdate,
-        (
-          AsteroidPlugin::spawn_asteroid,
-          AsteroidPlugin::rotate_asteroids,
-          AsteroidPlugin::handle_asteroid_collisions,
-        )
-      );
+    app.insert_resource(spawn_timer).add_systems(
+      PostUpdate,
+      (
+        AsteroidPlugin::spawn_asteroid,
+        AsteroidPlugin::rotate_asteroids,
+      )
+        .in_set(InGameSet::EntityUpdates),
+    );
   }
 }

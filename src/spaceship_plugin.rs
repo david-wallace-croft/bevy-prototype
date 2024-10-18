@@ -1,9 +1,11 @@
 use super::acceleration::Acceleration;
 use super::collider::Collider;
+use super::in_game_set::InGameSet;
 use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spaceship::Spaceship;
 use super::spaceship_missile::SpaceshipMissile;
+use super::spaceship_shield::SpaceshipShield;
 use super::velocity::Velocity;
 use ::bevy::prelude::*;
 
@@ -26,7 +28,9 @@ impl SpaceshipPlugin {
     mut query: Query<(&mut Transform, &mut Velocity), With<Spaceship>>,
     time: Res<Time>,
   ) {
-    let (mut transform, mut velocity) = query.single_mut();
+    let Ok((mut transform, mut velocity)) = query.get_single_mut() else {
+      return;
+    };
 
     let mut rotation = 0.;
 
@@ -59,14 +63,27 @@ impl SpaceshipPlugin {
     velocity.value = -transform.forward() * movement;
   }
 
+  fn spaceship_shield_controls(
+    mut commands: Commands,
+    query: Query<Entity, With<Spaceship>>,
+    button_input: Res<ButtonInput<KeyCode>>,
+  ) {
+    let Ok(spaceship) = query.get_single() else {
+      return;
+    };
+
+    if button_input.pressed(KeyCode::Tab) {
+      commands.entity(spaceship).insert(SpaceshipShield);
+    }
+  }
+
   fn spaceship_weapon_controls(
     button_input: Res<ButtonInput<KeyCode>>,
     mut commands: Commands,
     query: Query<&Transform, With<Spaceship>>,
-    scene_assets: Res<SceneAssets>)
-  {
-    if !button_input.pressed(KeyCode::Space)
-    {
+    scene_assets: Res<SceneAssets>,
+  ) {
+    if !button_input.pressed(KeyCode::Space) {
       return;
     }
 
@@ -144,7 +161,10 @@ impl Plugin for SpaceshipPlugin {
         (
           SpaceshipPlugin::spaceship_movement_controls,
           SpaceshipPlugin::spaceship_weapon_controls,
-        ),
+          SpaceshipPlugin::spaceship_shield_controls,
+        )
+          .chain()
+          .in_set(InGameSet::UserInput),
       );
   }
 }
