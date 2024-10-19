@@ -32,7 +32,7 @@ impl CollisionDetectionPlugin {
 
         colliding_entities
           .entry(entity_a)
-          .or_insert_with(Vec::new)
+          .or_default()
           .push(entity_b);
       }
     }
