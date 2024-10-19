@@ -7,6 +7,7 @@ mod collider;
 mod collision_detection_plugin;
 mod debug_plugin;
 mod despawn_plugin;
+mod game_state;
 mod in_game_set;
 mod movement_plugin;
 mod moving_object_bundle;
