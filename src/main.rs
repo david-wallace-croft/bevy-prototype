@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 mod acceleration;
 mod asset_loader_plugin;
 mod asteroid;
@@ -18,6 +20,7 @@ mod spaceship_missile;
 mod spaceship_plugin;
 mod spaceship_shield;
 mod spawn_timer;
+mod state_plugin;
 mod velocity;
 
 use self::asset_loader_plugin::AssetLoaderPlugin;
@@ -26,7 +29,9 @@ use self::camera_plugin::CameraPlugin;
 use self::collision_detection_plugin::CollisionDetectionPlugin;
 use self::despawn_plugin::DespawnPlugin;
 use self::movement_plugin::MovementPlugin;
+use self::schedule_plugin::SchedulePlugin;
 use self::spaceship_plugin::SpaceshipPlugin;
+use self::state_plugin::StatePlugin;
 use ::bevy::prelude::*;
 
 fn main() {
@@ -48,6 +53,7 @@ fn main() {
     .add_plugins(CameraPlugin)
     .add_plugins(CollisionDetectionPlugin)
     .add_plugins(DespawnPlugin)
-    // .add_plugins(DebugPlugin)
+    .add_plugins(SchedulePlugin)
+    .add_plugins(StatePlugin)
     .run();
 }

@@ -1,4 +1,5 @@
 use super::in_game_set::InGameSet;
+use crate::game_state::GameState;
 use ::bevy::prelude::*;
 
 pub struct SchedulePlugin;
@@ -17,7 +18,8 @@ impl Plugin for SchedulePlugin {
           InGameSet::EntityUpdates,
           InGameSet::CollisionDetection,
         )
-          .chain(),
+          .chain()
+          .run_if(in_state(GameState::InGame)),
       )
       .add_systems(
         Update,
