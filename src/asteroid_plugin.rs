@@ -1,6 +1,8 @@
 use super::acceleration::Acceleration;
 use super::asteroid::Asteroid;
 use super::collider::Collider;
+use super::collision_damage::CollisionDamage;
+use super::health::Health;
 use super::in_game_set::InGameSet;
 use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
@@ -12,11 +14,13 @@ use ::rand::Rng;
 use ::std::ops::Range;
 use ::std::time::Duration;
 
-const ACCELERATION_SCALAR: f32 = 1.0;
+const ACCELERATION_SCALAR: f32 = 1.;
+const COLLISION_DAMAGE: f32 = 35.;
+const HEALTH: f32 = 80.;
 const RADIUS: f32 = 2.5;
 const ROTATE_SPEED: f32 = 2.5;
-const SPAWN_RANGE_X: Range<f32> = -25.0..25.0;
-const SPAWN_RANGE_Z: Range<f32> = 0.0..25.0;
+const SPAWN_RANGE_X: Range<f32> = -25.0..25.;
+const SPAWN_RANGE_Z: Range<f32> = 0.0..25.;
 const SPAWN_TIME_SECONDS: f32 = 1.;
 const VELOCITY_SCALAR: f32 = 5.;
 
@@ -79,7 +83,11 @@ impl AsteroidPlugin {
       velocity,
     };
 
-    commands.spawn((moving_object_bundle, Asteroid));
+    let health = Health::new(HEALTH);
+
+    let collision_damage = CollisionDamage::new(COLLISION_DAMAGE);
+
+    commands.spawn((moving_object_bundle, Asteroid, health, collision_damage));
   }
 }
 

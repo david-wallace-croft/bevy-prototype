@@ -1,13 +1,40 @@
 use super::asteroid::Asteroid;
 use super::collider::Collider;
+use super::collision_damage::CollisionDamage;
+use super::collision_event::CollisionEvent;
+use super::health::Health;
 use super::in_game_set::InGameSet;
 use super::spaceship::Spaceship;
+use super::spaceship_missile::SpaceshipMissile;
 use ::bevy::prelude::*;
 use ::std::collections::HashMap;
 
 pub struct CollisionDetectionPlugin;
 
 impl CollisionDetectionPlugin {
+  fn apply_collision_damage(
+    collision_damage_query: Query<&CollisionDamage>,
+    mut collision_event_reader: EventReader<CollisionEvent>,
+    mut health_query: Query<&mut Health>,
+  ) {
+    for &CollisionEvent {
+      collided_entity,
+      entity,
+    } in collision_event_reader.read()
+    {
+      let Ok(mut health) = health_query.get_mut(entity) else {
+        continue;
+      };
+
+      let Ok(collision_damage) = collision_damage_query.get(collided_entity)
+      else {
+        continue;
+      };
+
+      health.value -= collision_damage.amount;
+    }
+  }
+
   fn collision_detection(
     mut query: Query<(Entity, &GlobalTransform, &mut Collider)>
   ) {
@@ -49,7 +76,7 @@ impl CollisionDetectionPlugin {
   }
 
   fn handle_collisions<T: Component>(
-    mut commands: Commands,
+    mut collision_event_writer: EventWriter<CollisionEvent>,
     query: Query<(Entity, &Collider), With<T>>,
   ) {
     for (entity, collider) in query.iter() {
@@ -58,7 +85,8 @@ impl CollisionDetectionPlugin {
           continue;
         }
 
-        commands.entity(entity).despawn_recursive();
+        collision_event_writer
+          .send(CollisionEvent::new(collided_entity, entity));
       }
     }
   }
@@ -78,10 +106,16 @@ impl Plugin for CollisionDetectionPlugin {
       .add_systems(
         Update,
         (
-          Self::handle_collisions::<Asteroid>,
-          Self::handle_collisions::<Spaceship>,
+          (
+            Self::handle_collisions::<Asteroid>,
+            Self::handle_collisions::<Spaceship>,
+            Self::handle_collisions::<SpaceshipMissile>,
+          ),
+          Self::apply_collision_damage,
         )
-          .in_set(InGameSet::DespawnEntities),
-      );
+          .chain()
+          .in_set(InGameSet::EntityUpdates),
+      )
+      .add_event::<CollisionEvent>();
   }
 }

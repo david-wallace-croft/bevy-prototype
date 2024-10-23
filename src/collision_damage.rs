@@ -4,3 +4,11 @@ use ::bevy::prelude::*;
 pub struct CollisionDamage {
   pub amount: f32,
 }
+
+impl CollisionDamage {
+  pub fn new(amount: f32) -> Self {
+    Self {
+      amount,
+    }
+  }
+}

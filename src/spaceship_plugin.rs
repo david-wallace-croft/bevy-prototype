@@ -7,11 +7,17 @@ use super::spaceship::Spaceship;
 use super::spaceship_missile::SpaceshipMissile;
 use super::spaceship_shield::SpaceshipShield;
 use super::velocity::Velocity;
+use crate::collision_damage::CollisionDamage;
+use crate::health::Health;
 use ::bevy::prelude::*;
 
 const MISSILE_FORWARD_SPAWN_SCALAR: f32 = 7.5;
+const MISSILE_COLLISION_DAMAGE: f32 = 5.;
+const MISSILE_HEALTH: f32 = 1.;
 const MISSILE_RADIUS: f32 = 1.;
 const MISSILE_SPEED: f32 = 50.;
+const SPACESHIP_COLLISION_DAMAGE: f32 = 100.;
+const SPACESHIP_HEALTH: f32 = 100.;
 const SPACESHIP_RADIUS: f32 = 5.;
 const SPACESHIP_ROLL_SPEED: f32 = 2.5;
 const SPACESHIP_ROTATION_SPEED: f32 = 2.5;
@@ -115,7 +121,16 @@ impl SpaceshipPlugin {
       velocity,
     };
 
-    commands.spawn((moving_object_bundle, SpaceshipMissile));
+    let health = Health::new(MISSILE_HEALTH);
+
+    let collision_damage = CollisionDamage::new(MISSILE_COLLISION_DAMAGE);
+
+    commands.spawn((
+      moving_object_bundle,
+      SpaceshipMissile,
+      health,
+      collision_damage,
+    ));
   }
 
   fn spawn_spaceship(
@@ -145,7 +160,11 @@ impl SpaceshipPlugin {
       velocity,
     };
 
-    commands.spawn((spaceship_bundle, Spaceship));
+    let health = Health::new(SPACESHIP_HEALTH);
+
+    let collision_damage = CollisionDamage::new(SPACESHIP_COLLISION_DAMAGE);
+
+    commands.spawn((spaceship_bundle, Spaceship, health, collision_damage));
   }
 }
 
