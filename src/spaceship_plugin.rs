@@ -8,6 +8,7 @@ use super::spaceship_missile::SpaceshipMissile;
 use super::spaceship_shield::SpaceshipShield;
 use super::velocity::Velocity;
 use crate::collision_damage::CollisionDamage;
+use crate::game_state::GameState;
 use crate::health::Health;
 use ::bevy::prelude::*;
 
@@ -29,6 +30,15 @@ const STARTING_VELOCITY: Vec3 = Vec3::new(0., 0., 1.);
 pub struct SpaceshipPlugin;
 
 impl SpaceshipPlugin {
+  fn spaceship_destroyed(
+    mut next_state: ResMut<NextState<GameState>>,
+    query: Query<(), With<Spaceship>>,
+  ) {
+    if query.get_single().is_err() {
+      next_state.set(GameState::GameOver)
+    }
+  }
+
   fn spaceship_movement_controls(
     button_input: Res<ButtonInput<KeyCode>>,
     mut query: Query<(&mut Transform, &mut Velocity), With<Spaceship>>,
@@ -176,6 +186,10 @@ impl Plugin for SpaceshipPlugin {
     app
       .add_systems(PostStartup, SpaceshipPlugin::spawn_spaceship)
       .add_systems(
+        OnEnter(GameState::GameOver),
+        SpaceshipPlugin::spawn_spaceship,
+      )
+      .add_systems(
         Update,
         (
           SpaceshipPlugin::spaceship_movement_controls,
@@ -184,6 +198,10 @@ impl Plugin for SpaceshipPlugin {
         )
           .chain()
           .in_set(InGameSet::UserInput),
+      )
+      .add_systems(
+        Update,
+        SpaceshipPlugin::spaceship_destroyed.in_set(InGameSet::EntityUpdates),
       );
   }
 }

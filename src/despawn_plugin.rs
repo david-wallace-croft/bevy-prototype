@@ -1,3 +1,4 @@
+use super::game_state::GameState;
 use super::health::Health;
 use super::in_game_set::InGameSet;
 use ::bevy::prelude::*;
@@ -7,6 +8,15 @@ const DESPAWN_DISTANCE: f32 = 100.;
 pub struct DespawnPlugin;
 
 impl DespawnPlugin {
+  fn despawn_all_entities(
+    mut commands: Commands,
+    query: Query<Entity, With<Health>>,
+  ) {
+    for entity in query.iter() {
+      commands.entity(entity).despawn_recursive();
+    }
+  }
+
   fn despawn_dead_entities(
     mut commands: Commands,
     query: Query<(Entity, &Health)>,
@@ -39,13 +49,18 @@ impl Plugin for DespawnPlugin {
     &self,
     app: &mut App,
   ) {
-    app.add_systems(
-      Update,
-      (
-        DespawnPlugin::despawn_far_away_entities,
-        DespawnPlugin::despawn_dead_entities,
+    app
+      .add_systems(
+        Update,
+        (
+          DespawnPlugin::despawn_far_away_entities,
+          DespawnPlugin::despawn_dead_entities,
+        )
+          .in_set(InGameSet::DespawnEntities),
       )
-        .in_set(InGameSet::DespawnEntities),
-    );
+      .add_systems(
+        OnEnter(GameState::GameOver),
+        DespawnPlugin::despawn_all_entities,
+      );
   }
 }

@@ -17,6 +17,10 @@ impl StatePlugin {
       }
     }
   }
+
+  fn transition_to_in_game(mut next_state: ResMut<NextState<GameState>>) {
+    next_state.set(GameState::InGame);
+  }
 }
 
 impl Plugin for StatePlugin {
@@ -24,8 +28,13 @@ impl Plugin for StatePlugin {
     &self,
     app: &mut App,
   ) {
-    app
-      .init_state::<GameState>()
-      .add_systems(Update, StatePlugin::game_state_input_events);
+    app.init_state::<GameState>().add_systems(
+      Update,
+      (
+        StatePlugin::game_state_input_events,
+        StatePlugin::transition_to_in_game
+          .run_if(in_state(GameState::GameOver)),
+      ),
+    );
   }
 }
