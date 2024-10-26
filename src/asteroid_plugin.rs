@@ -3,11 +3,11 @@ use super::asteroid::Asteroid;
 use super::collider::Collider;
 use super::collision_damage::CollisionDamage;
 use super::health::Health;
-use super::in_game_set::InGameSet;
 use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spawn_timer::SpawnTimer;
 use super::velocity::Velocity;
+use crate::game_state::GameState;
 use ::bevy::prelude::*;
 use ::rand::thread_rng;
 use ::rand::Rng;
@@ -108,7 +108,8 @@ impl Plugin for AsteroidPlugin {
         AsteroidPlugin::spawn_asteroid,
         AsteroidPlugin::rotate_asteroids,
       )
-        .in_set(InGameSet::EntityUpdates),
+        .chain()
+        .run_if(in_state(GameState::InGame)),
     );
   }
 }
