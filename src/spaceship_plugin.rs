@@ -55,9 +55,9 @@ impl SpaceshipPlugin {
     let mut movement = 0.;
 
     if button_input.pressed(KeyCode::KeyD) {
-      rotation = -SPACESHIP_ROTATION_SPEED * time.delta_seconds();
+      rotation = -SPACESHIP_ROTATION_SPEED * time.delta_secs();
     } else if button_input.pressed(KeyCode::KeyA) {
-      rotation = SPACESHIP_ROTATION_SPEED * time.delta_seconds();
+      rotation = SPACESHIP_ROTATION_SPEED * time.delta_secs();
     }
 
     if button_input.pressed(KeyCode::KeyS) {
@@ -67,9 +67,9 @@ impl SpaceshipPlugin {
     }
 
     if button_input.pressed(KeyCode::ShiftLeft) {
-      roll = -SPACESHIP_ROLL_SPEED * time.delta_seconds();
+      roll = -SPACESHIP_ROLL_SPEED * time.delta_secs();
     } else if button_input.pressed(KeyCode::ShiftRight) {
-      roll = SPACESHIP_ROLL_SPEED * time.delta_seconds();
+      roll = SPACESHIP_ROLL_SPEED * time.delta_secs();
     }
 
     transform.rotate_y(rotation);
@@ -107,7 +107,7 @@ impl SpaceshipPlugin {
 
     let collider = Collider::new(MISSILE_RADIUS);
 
-    let scene: Handle<Scene> = scene_assets.missile.clone();
+    let scene: SceneRoot = SceneRoot(scene_assets.missile.clone());
 
     let transform = query.single();
 
@@ -151,7 +151,7 @@ impl SpaceshipPlugin {
 
     let collider = Collider::new(SPACESHIP_RADIUS);
 
-    let scene: Handle<Scene> = scene_assets.spaceship.clone();
+    let scene: SceneRoot = SceneRoot(scene_assets.spaceship.clone());
 
     let transform = Transform::from_translation(STARTING_TRANSLATION);
 

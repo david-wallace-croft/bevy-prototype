@@ -32,7 +32,7 @@ impl AsteroidPlugin {
     time: Res<Time>,
   ) {
     for mut transform in query.iter_mut() {
-      transform.rotate_local_z(ROTATE_SPEED * time.delta_seconds());
+      transform.rotate_local_z(ROTATE_SPEED * time.delta_secs());
     }
   }
 
@@ -69,7 +69,7 @@ impl AsteroidPlugin {
     let collider = Collider::new(RADIUS);
 
     let model: SceneBundle = SceneBundle {
-      scene: scene_assets.asteroid.clone(),
+      scene: SceneRoot(scene_assets.asteroid.clone()),
       transform: Transform::from_translation(translation),
       ..default()
     };

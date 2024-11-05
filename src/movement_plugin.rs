@@ -11,7 +11,7 @@ impl MovementPlugin {
     time: Res<Time>,
   ) {
     for (velocity, mut transform) in query.iter_mut() {
-      transform.translation += velocity.value * time.delta_seconds();
+      transform.translation += velocity.value * time.delta_secs();
     }
   }
 
@@ -20,7 +20,7 @@ impl MovementPlugin {
     time: Res<Time>,
   ) {
     for (acceleration, mut velocity) in query.iter_mut() {
-      velocity.value += acceleration.value * time.delta_seconds();
+      velocity.value += acceleration.value * time.delta_secs();
     }
   }
 }
