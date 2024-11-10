@@ -1,6 +1,14 @@
 # Bevy Prototype
 
+[![MIT licensed][mit-badge]][mit-url]
+
+[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
+
+[mit-url]: https://github.com/david-wallace-croft/bevy-prototype/blob/main/LICENSE.txt
+
 - My first Bevy program
+- Based on the YouTube video tutorial series by Zymartu Games
+    - https://www.youtube.com/watch?v=B6ZFuYYZCSY&t=7s
 
 ## Usage
 
