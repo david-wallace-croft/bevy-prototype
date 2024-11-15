@@ -151,30 +151,26 @@ impl SpaceshipPlugin {
 
     let collider = Collider::new(SPACESHIP_RADIUS);
 
-    let scene: SceneRoot = SceneRoot(scene_assets.spaceship.clone());
+    let scene_root: SceneRoot = SceneRoot(scene_assets.spaceship.clone());
 
     let transform = Transform::from_translation(STARTING_TRANSLATION);
 
-    let model = SceneBundle {
-      scene,
-      transform,
-      ..default()
-    };
-
     let velocity = Velocity::new(STARTING_VELOCITY);
-
-    let spaceship_bundle = MovingObjectBundle {
-      acceleration,
-      collider,
-      model,
-      velocity,
-    };
 
     let health = Health::new(SPACESHIP_HEALTH);
 
     let collision_damage = CollisionDamage::new(SPACESHIP_COLLISION_DAMAGE);
 
-    commands.spawn((spaceship_bundle, Spaceship, health, collision_damage));
+    commands.spawn((
+      Spaceship,
+      acceleration,
+      collider,
+      collision_damage,
+      health,
+      scene_root,
+      transform,
+      velocity,
+    ));
   }
 }
 

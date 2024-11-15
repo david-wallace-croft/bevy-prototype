@@ -3,7 +3,6 @@ use super::asteroid::Asteroid;
 use super::collider::Collider;
 use super::collision_damage::CollisionDamage;
 use super::health::Health;
-use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spawn_timer::SpawnTimer;
 use super::velocity::Velocity;
@@ -68,26 +67,26 @@ impl AsteroidPlugin {
 
     let collider = Collider::new(RADIUS);
 
-    let model: SceneBundle = SceneBundle {
-      scene: SceneRoot(scene_assets.asteroid.clone()),
-      transform: Transform::from_translation(translation),
-      ..default()
-    };
+    let scene_root = SceneRoot(scene_assets.asteroid.clone());
+
+    let transform = Transform::from_translation(translation);
 
     let velocity = Velocity::new(random_unit_vector() * VELOCITY_SCALAR);
-
-    let moving_object_bundle = MovingObjectBundle {
-      acceleration,
-      collider,
-      model,
-      velocity,
-    };
 
     let health = Health::new(HEALTH);
 
     let collision_damage = CollisionDamage::new(COLLISION_DAMAGE);
 
-    commands.spawn((moving_object_bundle, Asteroid, health, collision_damage));
+    commands.spawn((
+      Asteroid,
+      acceleration,
+      collider,
+      collision_damage,
+      health,
+      scene_root,
+      transform,
+      velocity,
+    ));
   }
 }
 

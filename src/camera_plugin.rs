@@ -6,15 +6,12 @@ pub struct CameraPlugin;
 
 impl CameraPlugin {
   fn spawn_camera(mut commands: Commands) {
+    let camera3d = Camera3d::default();
+
     let transform = Transform::from_xyz(0., CAMERA_DISTANCE, 0.)
       .looking_at(Vec3::ZERO, Vec3::Z);
 
-    let camera3d_bundle = Camera3dBundle {
-      transform,
-      ..default()
-    };
-
-    commands.spawn(camera3d_bundle);
+    commands.spawn((camera3d, transform));
   }
 }
 
