@@ -1,7 +1,6 @@
 use super::acceleration::Acceleration;
 use super::collider::Collider;
 use super::in_game_set::InGameSet;
-use super::moving_object_bundle::MovingObjectBundle;
 use super::scene_assets::SceneAssets;
 use super::spaceship::Spaceship;
 use super::spaceship_missile::SpaceshipMissile;
@@ -107,7 +106,7 @@ impl SpaceshipPlugin {
 
     let collider = Collider::new(MISSILE_RADIUS);
 
-    let scene: SceneRoot = SceneRoot(scene_assets.missile.clone());
+    let scene_root: SceneRoot = SceneRoot(scene_assets.missile.clone());
 
     let transform = query.single();
 
@@ -116,30 +115,21 @@ impl SpaceshipPlugin {
 
     let model_transform = Transform::from_translation(model_translation);
 
-    let model = SceneBundle {
-      scene,
-      transform: model_transform,
-      ..default()
-    };
-
     let velocity = Velocity::new(-transform.forward() * MISSILE_SPEED);
-
-    let moving_object_bundle = MovingObjectBundle {
-      acceleration,
-      collider,
-      model,
-      velocity,
-    };
 
     let health = Health::new(MISSILE_HEALTH);
 
     let collision_damage = CollisionDamage::new(MISSILE_COLLISION_DAMAGE);
 
     commands.spawn((
-      moving_object_bundle,
       SpaceshipMissile,
-      health,
+      acceleration,
+      collider,
       collision_damage,
+      health,
+      model_transform,
+      scene_root,
+      velocity,
     ));
   }
 
