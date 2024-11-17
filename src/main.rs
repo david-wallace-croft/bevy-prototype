@@ -15,7 +15,6 @@ mod game_state;
 mod health;
 mod in_game_set;
 mod movement_plugin;
-mod moving_object_bundle;
 mod scene_assets;
 mod schedule_plugin;
 mod spaceship;
