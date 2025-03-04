@@ -1,18 +1,19 @@
 [package]
 authors = ["David Wallace Croft <david@CroftSoft.com>"]
 description = "My first Bevy program"
-edition = "2021"
+edition = "2024"
 homepage = "https://www.CroftSoft.com/"
 license = "MIT"
 name = "bevy-prototype"
 publish = false
 readme = "README.md"
 repository = "https://github.com/david-wallace-croft/bevy-prototype"
+rust-version = "1.85.0"
 version = "0.0.0-SNAPSHOT"
 
 [dependencies]
-bevy = "0.15.1"
-rand = "0.8.5"
+bevy = "0.15.3"
+rand = "0.9.0"
 
 [profile.dev]
 opt-level = 1
