@@ -8,8 +8,8 @@ use super::spawn_timer::SpawnTimer;
 use super::velocity::Velocity;
 use crate::game_state::GameState;
 use ::bevy::prelude::*;
-use ::rand::thread_rng;
 use ::rand::Rng;
+use ::rand::thread_rng;
 use ::std::ops::Range;
 use ::std::time::Duration;
 
