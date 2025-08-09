@@ -40,6 +40,7 @@ fn main() {
   let clear_color = ClearColor(Color::srgb(0.1, 0., 0.15));
 
   let ambient_light = AmbientLight {
+    affects_lightmapped_meshes: true,
     color: Default::default(),
     brightness: 1_000.,
   };

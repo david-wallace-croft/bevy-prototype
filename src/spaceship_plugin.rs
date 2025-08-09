@@ -108,7 +108,7 @@ impl SpaceshipPlugin {
 
     let scene_root: SceneRoot = SceneRoot(scene_assets.missile.clone());
 
-    let transform = query.single();
+    let transform = query.single().ok().unwrap();
 
     let model_translation: Vec3 = transform.translation
       + -transform.forward() * MISSILE_FORWARD_SPAWN_SCALAR;
