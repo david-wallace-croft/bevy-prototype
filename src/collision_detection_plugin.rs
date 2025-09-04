@@ -86,7 +86,7 @@ impl CollisionDetectionPlugin {
         }
 
         collision_event_writer
-          .send(CollisionEvent::new(collided_entity, entity));
+          .write(CollisionEvent::new(collided_entity, entity));
       }
     }
   }

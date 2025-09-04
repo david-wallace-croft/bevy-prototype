@@ -33,7 +33,7 @@ impl SpaceshipPlugin {
     mut next_state: ResMut<NextState<GameState>>,
     query: Query<(), With<Spaceship>>,
   ) {
-    if query.get_single().is_err() {
+    if query.single().is_err() {
       next_state.set(GameState::GameOver)
     }
   }
@@ -43,7 +43,7 @@ impl SpaceshipPlugin {
     mut query: Query<(&mut Transform, &mut Velocity), With<Spaceship>>,
     time: Res<Time>,
   ) {
-    let Ok((mut transform, mut velocity)) = query.get_single_mut() else {
+    let Ok((mut transform, mut velocity)) = query.single_mut() else {
       return;
     };
 
@@ -83,7 +83,7 @@ impl SpaceshipPlugin {
     query: Query<Entity, With<Spaceship>>,
     button_input: Res<ButtonInput<KeyCode>>,
   ) {
-    let Ok(spaceship) = query.get_single() else {
+    let Ok(spaceship) = query.single() else {
       return;
     };
 

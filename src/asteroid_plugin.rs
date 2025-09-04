@@ -8,8 +8,7 @@ use super::spawn_timer::SpawnTimer;
 use super::velocity::Velocity;
 use crate::game_state::GameState;
 use ::bevy::prelude::*;
-use ::rand::Rng;
-use ::rand::thread_rng;
+use ::rand::{self, Rng};
 use ::std::ops::Range;
 use ::std::time::Duration;
 
@@ -49,23 +48,23 @@ impl AsteroidPlugin {
       return;
     }
 
-    let mut rng = thread_rng();
+    let mut rng: rand::prelude::ThreadRng = rand::rng();
 
-    let translation = Vec3::new(
-      rng.gen_range(SPAWN_RANGE_X),
+    let translation: Vec3 = Vec3::new(
+      rng.random_range(SPAWN_RANGE_X),
       0.,
-      rng.gen_range(SPAWN_RANGE_Z),
+      rng.random_range(SPAWN_RANGE_Z),
     );
 
     let mut random_unit_vector = || {
-      Vec3::new(rng.gen_range(-1.0..1.0), 0., rng.gen_range(-1.0..1.0))
+      Vec3::new(rng.random_range(-1.0..1.0), 0., rng.random_range(-1.0..1.0))
         .normalize_or_zero()
     };
 
-    let acceleration =
+    let acceleration: Acceleration =
       Acceleration::new(random_unit_vector() * ACCELERATION_SCALAR);
 
-    let collider = Collider::new(RADIUS);
+    let collider: Collider = Collider::new(RADIUS);
 
     let scene_root = SceneRoot(scene_assets.asteroid.clone());
 

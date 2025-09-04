@@ -13,7 +13,7 @@ impl DespawnPlugin {
     query: Query<Entity, With<Health>>,
   ) {
     for entity in query.iter() {
-      commands.entity(entity).despawn_recursive();
+      commands.entity(entity).despawn();
     }
   }
 
@@ -23,7 +23,7 @@ impl DespawnPlugin {
   ) {
     for (entity, health) in query.iter() {
       if health.value <= 0. {
-        commands.entity(entity).despawn_recursive();
+        commands.entity(entity).despawn();
       }
     }
   }
@@ -38,7 +38,7 @@ impl DespawnPlugin {
       let distance: f32 = translation.distance(Vec3::ZERO);
 
       if distance > DESPAWN_DISTANCE {
-        commands.entity(entity).despawn_recursive();
+        commands.entity(entity).despawn();
       }
     }
   }

@@ -23,7 +23,7 @@ impl Plugin for SchedulePlugin {
       )
       .add_systems(
         Update,
-        apply_deferred
+        ApplyDeferred
           .after(InGameSet::DespawnEntities)
           .before(InGameSet::UserInput),
       );
