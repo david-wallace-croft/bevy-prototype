@@ -14,7 +14,7 @@ pub struct CollisionDetectionPlugin;
 impl CollisionDetectionPlugin {
   fn apply_collision_damage(
     collision_damage_query: Query<&CollisionDamage>,
-    mut collision_event_reader: EventReader<CollisionEvent>,
+    mut collision_event_reader: MessageReader<CollisionEvent>,
     mut health_query: Query<&mut Health>,
   ) {
     for &CollisionEvent {
@@ -76,7 +76,7 @@ impl CollisionDetectionPlugin {
   }
 
   fn handle_collisions<T: Component>(
-    mut collision_event_writer: EventWriter<CollisionEvent>,
+    mut collision_event_writer: MessageWriter<CollisionEvent>,
     query: Query<(Entity, &Collider), With<T>>,
   ) {
     for (entity, collider) in query.iter() {
@@ -116,6 +116,6 @@ impl Plugin for CollisionDetectionPlugin {
           .chain()
           .in_set(InGameSet::EntityUpdates),
       )
-      .add_event::<CollisionEvent>();
+      .add_message::<CollisionEvent>();
   }
 }

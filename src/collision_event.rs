@@ -1,6 +1,6 @@
 use ::bevy::prelude::*;
 
-#[derive(Debug, Event)]
+#[derive(Debug, Message)]
 pub struct CollisionEvent {
   pub collided_entity: Entity,
   pub entity: Entity,

@@ -26,4 +26,7 @@
 
 ## History
 
-- Initial release: 2024-09-27
+- 2024-09-27: Initial release
+- 2024-11-05: Updated to Bevy v0.15
+- 2025-08-09: Updated to Bevy v0.16
+- 2025-10-17: Updated to Bevy v0.17
