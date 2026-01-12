@@ -1,9 +1,11 @@
 # Bevy Prototype
 
 [![MIT licensed][mit-badge]][mit-url]
+[![CI][ci-badge]][ci-url]
 
+[ci-badge]: https://github.com/david-wallace-croft/bevy-prototype/actions/workflows/ci.yaml/badge.svg
+[ci-url]: https://github.com/david-wallace-croft/bevy-protoype/actions/workflows/ci.yaml
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-
 [mit-url]: https://github.com/david-wallace-croft/bevy-prototype/blob/main/LICENSE.txt
 
 - My first Bevy program
@@ -23,6 +25,8 @@
   - https://www.youtube.com/watch?v=B6ZFuYYZCSY&t=7s
 - Ultimate Space Kit by Quaternius via Poly Pizza
   - https://poly.pizza/bundle/Ultimate-Space-Kit-YWh743lqGX
+- Bevy GitHub CI Template
+  - https://github.com/bevyengine/bevy_github_ci_template/  
 
 ## History
 
