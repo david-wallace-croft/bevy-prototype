@@ -8,11 +8,11 @@ name = "bevy-prototype"
 publish = false
 readme = "README.md"
 repository = "https://github.com/david-wallace-croft/bevy-prototype"
-rust-version = "1.89.0"
+rust-version = "1.93.0"
 version = "0.0.0-SNAPSHOT"
 
 [dependencies]
-bevy = "0.17.3"
+bevy = "0.18.0"
 rand = "0.9.2"
 
 [profile.dev]

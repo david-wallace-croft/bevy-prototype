@@ -37,9 +37,11 @@ use self::state_plugin::StatePlugin;
 use ::bevy::prelude::*;
 
 fn main() {
-  let clear_color = ClearColor(Color::srgb(0.1, 0., 0.15));
+  let color: Color = Color::srgb(0.1, 0., 0.15);
 
-  let ambient_light = AmbientLight {
+  let clear_color: ClearColor = ClearColor(color);
+
+  let global_ambient_light: GlobalAmbientLight = GlobalAmbientLight {
     affects_lightmapped_meshes: true,
     color: Default::default(),
     brightness: 1_000.,
@@ -47,7 +49,7 @@ fn main() {
 
   App::new()
     .insert_resource(clear_color)
-    .insert_resource(ambient_light)
+    .insert_resource(global_ambient_light)
     .add_plugins(DefaultPlugins)
     .add_plugins(AssetLoaderPlugin)
     .add_plugins(MovementPlugin)
